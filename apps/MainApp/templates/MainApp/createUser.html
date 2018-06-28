@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Regastration</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+  </head>
+  <body>
+    {% if messages %}
+        {%for message in messages%}
+        <div class="alert alert-primary" role="alert">
+            {{message}}
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% if request.session.logOn == "True" %}
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">GoodDeedz</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+          </ul>
+          <form class="form-inline my-2 my-lg-0">
+            
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Log Out</button>
+          </form>
+        </div>
+      </nav>
+      {% else %}
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="/">GoodDeedz</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                </ul>
+                  <form action = '/Login' method='POST' class="form-inline my-2 my-lg-0">
+                      {% csrf_token %}
+                    <input class="form-control mr-sm-2" name="Email" type="Email" placeholder="Email" aria-label="Email">
+                    <input class="form-control mr-sm-2" name="Password" type="Password" placeholder="Password" aria-label="Password">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Log in</button>
+                  </form>
+               <a href="/createUser"> <button class="btn btn-outline-success my-2 my-sm-0" type="input" >Register</button></a> 
+            </div>
+            </nav>
+      {% endif %}
+{% if request.session.logOn == "True" %}
+  <form action = '/UpdateEmail' method='POST'>
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="exampleInputEmail1"><h2> change your info here</h2></label>
+      <input type="Email" class="form-control" name="Email" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+      <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <br>
+    <form action = '/UpdatePassword' method='POST'>
+      {% csrf_token %}
+    <div class="form-group">
+      <input type="password" class="form-control" name="Password" id="exampleInputPassword1" placeholder="Password">
+      <small id="emailHelp" class="form-text text-muted">Must be 8-20 characters long.</small>
+      <input type="password" class="form-control" name="ConfirmPassword" id="exampleInputPassword1" placeholder="conferm Password">
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </div>
+  </form>
+  <br>
+  <form action = '/Updatename' method='POST'>
+    {% csrf_token %}
+    <div class="form-group">
+      <input type="Firstname" class="form-control" name="Firstname" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="First name">
+    </div>
+    <div class="form-group">
+      <input type="Lastname" class="form-control" name="Lastname" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Last name">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    </form> 
+{% else %}
+<form action = '/Add' method='POST'>
+  {% csrf_token %}
+  <div class="form-group">
+  <label class="col-form-label" for="formGroupExampleInput">first Name</label>
+  <input type="text" class="form-control" id="formGroupExampleInput" name="Firstname" placeholder="First Name">
+</div>
+<div class="form-group">
+  <label class="col-form-label" for="formGroupExampleInput2">Last Name</label>
+  <input type="text" class="form-control" id="formGroupExampleInput2" name="Lastname" placeholder="Last Name">
+</div>
+<div class="form-group">
+  <label class="col-form-label" for="formGroupExampleInput2">Date of Birth</label>
+  <input type="date" class="form-control" id="formGroupExampleInput2" name="Dateofbirth" placeholder="Date of Birth">
+</div>
+  <div class="form-group">
+  <label class="col-form-label" for="formGroupExampleInput2">Email</label>
+  <small id="passwordHelpInline" class="text-muted">
+    Must be a valid email.
+  </small>
+  <input type="text" class="form-control" id="formGroupExampleInput2" name="Email" placeholder="Email">
+</div>
+  <div class="form-group">
+  <label class="col-form-label" for="formGroupExampleInput2">Phone Number</label>
+  <small id="passwordHelpInline" class="text-muted">
+  </small>
+  <input type="tel" class="form-control" id="formGroupExampleInput2" name="Phonenumber" placeholder="Phone Number">
+</div>
+  <div class="form-group">
+  <label class="col-form-label" for="formGroupExampleInput2">Password</label>
+  <small id="passwordHelpInline" class="text-muted">
+    Must be 8-20 characters long.
+  </small>
+  <input type="password" class="form-control" id="exampleInputPassword1" name="Password" placeholder="Password">
+</div>
+  <div class="form-group">
+  <label class="col-form-label" for="formGroupExampleInput2">Confirm password</label>
+  <input type="password" class="form-control" id="formGroupExampleInput2" name="ConfirmPassword" placeholder="Confirm password">
+</div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{% endif %}
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+  </body>
+</html>

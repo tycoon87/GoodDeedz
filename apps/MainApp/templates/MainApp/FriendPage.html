@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+  </head>
+  <body>
+    {% if messages %}
+        {%for message in messages%}
+            <div class="alert alert-danger" role="alert">
+            {{message}}
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% if request.session.logOn == "True" %}
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">GoodDeedz</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+          </ul>
+          <form action = '/Logout' class="form-inline my-2 my-lg-0">
+            {% csrf_token %}
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">logout</button>
+          </form>
+        </div>
+      </nav>
+      {% else %}
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="/">GoodDeedz</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                </ul>
+                <form action = '/Login' method='POST' class="form-inline my-2 my-lg-0">
+                        {% csrf_token %}
+                    <input class="form-control mr-sm-2" name="Email" type="Email" placeholder="Email" aria-label="Email">
+                    <input class="form-control mr-sm-2" name="Password" type="Password" placeholder="Password" aria-label="Password">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Log in</button>
+                </form>
+               <a href="/createUser"> <button class="btn btn-outline-success my-2 my-sm-0" type="input" >Register</button></a> 
+            </div>
+            </nav>
+      {% endif %}
+      {% if request.session.logOn == "True" %}    
+      <h1> Users </h1>
+<br>
+<table class="table table-striped">
+<thead>
+<tr>
+  <th scope="col">id</th>
+  <th scope="col">Full Name</th>
+  <th scope="col">Email</th>
+  <th scope="col">Phone Number</th>
+  <th scope="col">created at</th>
+  <th scope="col">Actions</th>
+</tr>
+</thead>
+<tbody>
+  {% for id in User %}
+  <tr>
+  <th scope="row">{{id.id}}</th>
+  <td>{{id.Firstname}} {{id.Lastname}}</td>
+  <td>{{id.Email}}</td>
+  <td>{{id.Phonenumber}}</td>
+  <td>{{id.created_at}}</td>
+  <td>
+      {% if friend not in User.Friendships %}
+        <a href="AddFriend/{{id.id}}">friend</a> |
+        <a href="/UnFriend/{{id.id}}">unfriend</a>
+      {% else %}
+        <a href="AddFriend/{{id.id}}">friend</a> |
+        <a href="/UnFriend/{{id.id}}">unfriend</a> 
+      {% endif %}  
+    </td>
+  {% endfor %}
+  <tr>
+        <th scope="col">id</th>
+        <th scope="col">Full Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+          {% for friend in User.Friendship %}
+          <tr>
+          <th scope="row">{{friend.id}}</th>
+          <td>{{friend.Firstname}} {{friend.Lastname}}</td>
+          <td>{{friend.Email}}</td>
+          <td>{{friend.Phonenumber}}</td>
+          <td>{{friend.created_at}}</td>
+          <td>
+      </tbody></p>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% else %}
+  <h1> how did you get here?!?</h1>
+    you must log in befor acsessing this page!
+  {% endif %}
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+  </body>
+</html>
