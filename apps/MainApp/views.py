@@ -20,11 +20,9 @@ def Add(request):
         return render(request, 'MainApp/index.html', {"User": User.objects.get(Email=request.POST['Email'])})
 
 def FriendPage (request):
-    
     loggedUser = User.objects.get(id=request.session['userId'])
-    Friendship = loggedUser.Friendships.all()
-    print Friendship
-    return render(request, 'MainApp/FriendPage.html',{"User": User.objects.all()}, Friendship)
+    context = {'logged_in_user' : loggedUser}
+    return render(request, 'MainApp/FriendPage.html',{"User": User.objects.all()}, context)
 
 def Login(request):
     if request.method == 'POST':

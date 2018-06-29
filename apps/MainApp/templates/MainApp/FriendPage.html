@@ -88,13 +88,12 @@
       </tr>
       </thead>
       <tbody>
-          {% for friend in User.Friendship %}
+          {% for friendship in logged_in_user.Friendships.all %}
           <tr>
-          <th scope="row">{{friend.id}}</th>
-          <td>{{friend.Firstname}} {{friend.Lastname}}</td>
-          <td>{{friend.Email}}</td>
-          <td>{{friend.Phonenumber}}</td>
-          <td>{{friend.created_at}}</td>
+          <th scope="row">{{friendship.id}}</th>
+          <td>{{friendship.Firstname}} {{friendship.Lastname}}</td>
+          <td>{{friendship.Email}}</td>
+          <td>{{friendship.created_at}}</td>
           <td>
       </tbody></p>
       {% endfor %}
