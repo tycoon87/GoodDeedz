@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Organizer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    
+</head>
+<body>
+        {% if messages %}
+        {%for message in messages%}
+            <div class="alert alert-danger" role="alert">
+            {{message}}
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% if request.session.logOn == "True" %}
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">GoodDeedz</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+          </ul>
+          <form class="form-inline my-2 my-lg-0">
+            
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Log Out</button>
+          </form>
+        </div>
+      </nav>
+      {% else %}
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="/">GoodDeedz</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                </ul>
+                <form action = '/Login' method='POST' class="form-inline my-2 my-lg-0">
+                        {% csrf_token %}
+                    <input class="form-control mr-sm-2" name="Email" type="Email" placeholder="Email" aria-label="Email">
+                    <input class="form-control mr-sm-2" name="Password" type="Password" placeholder="Password" aria-label="Password">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Log in</button>
+                </form>
+               <a href="/createUser"> <button class="btn btn-outline-success my-2 my-sm-0" type="input" >Register</button></a> 
+            </div>
+            </nav>
+      {% endif %}
+
+      {% if Is_organizer == False %}
+      <a href="/organizerregastration"><h3>become an Organizer</h3></a>
+      {% else %}
+        
+      {% endif %}
+</body>
+</html>

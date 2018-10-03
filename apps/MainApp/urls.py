@@ -10,4 +10,7 @@ url(r'^Logout$', views.Logout),
 url(r'^FriendPage$', views.FriendPage),
 url(r'^AddFriend/(?P<User_id>\d+)$' , views.AddFriend),
 url(r'^UnFriend/(?P<User_id>\d+)$' , views.UnFriend),
+url(r'^Organizerpage$', views.Organizerpage),
+url(r'^organizerregastration$',views.organizerregastration),
+url(r'^addorganizer$', views.addorganizer) 
 ]

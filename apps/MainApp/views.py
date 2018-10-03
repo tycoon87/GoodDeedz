@@ -10,8 +10,8 @@ def createUser (request):
 
 def Add(request):
     errors = User.objects.basic_validator(request.POST)
-    if len(messages):
-        for tag, error in messages.iteritems():
+    if len(errors):
+        for tag, error in errors.iteritems():
             messages.error(request, error, extra_tags=tag)
             return redirect('/createUser',messages )
     if request.POST['Password'] != request.POST['ConfirmPassword']:
@@ -20,9 +20,46 @@ def Add(request):
         return render(request, 'MainApp/index.html', {"User": User.objects.get(Email=request.POST['Email'])})
 
 def FriendPage (request):
-    loggedUser = User.objects.get(id=request.session['userId'])
-    context = {'logged_in_user' : loggedUser}
-    return render(request, 'MainApp/FriendPage.html',{"User": User.objects.all()}, context)
+    if 'logOn' not in request.session:
+        return redirect('/')
+    else:
+        loggedUser = User.objects.get(id=request.session['userId'])
+        context = {'logged_in_user' : loggedUser, 'all_users' : User.objects.all}
+        return render(request, 'MainApp/FriendPage.html', context=context)
+
+def Organizerpage (request):
+    if 'logOn' not in request.session:
+        return redirect('/')
+    else:
+        loggedUser = User.objects.get(id=request.session['userId']) 
+        Is_organizer = User(id = loggedUser).Isorganizer      
+        context = {
+            'loggedUser' : loggedUser,
+            'Is_organizer' : Is_organizer 
+        }
+        Is_organizer = User(id = loggedUser).Isorganizer
+        return render(request, 'MainApp/Organizerpage.html', context=context)
+
+def organizerregastration (request):
+    if 'logOn' not in request.session:
+        return redirect('/')
+    else:    
+        loggedUser = User.objects.get(id=request.session['userId'])
+        context = {
+            'loggedUser' : loggedUser,
+            'User' : User.objects.all
+        }
+        return render(request, 'MainApp/organizerregastration.html', context=context)
+
+def addorganizer (request):
+    loggedUser = User.objects.get(id=request.session['userId'])  
+    errors = User.objects.Organizer_validation(request.POST)
+    if len(errors):
+        for tag, error in errors.iteritems():
+            messages.error(request, error, extra_tags=tag)
+            return redirect('/organizerregastration',messages )
+    else:
+        return render(request, 'MainApp/index.html', {"User": User.objects.get(Email=request.POST['Email'])})
 
 def Login(request):
     if request.method == 'POST':
